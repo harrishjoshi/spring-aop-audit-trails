@@ -1,5 +1,6 @@
 package com.harrishjoshi.springaop.audit.trails.config;
 
+import com.harrishjoshi.springaop.audit.trails.helper.AppContext;
 import com.harrishjoshi.springaop.audit.trails.token.TokenType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -60,6 +61,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
-        filterChain.doFilter(request, response);
+
+        try {
+            filterChain.doFilter(request, response);
+        } finally {
+            AppContext.clear();
+        }
     }
 }
