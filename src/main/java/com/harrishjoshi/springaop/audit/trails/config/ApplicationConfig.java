@@ -1,6 +1,6 @@
 package com.harrishjoshi.springaop.audit.trails.config;
 
-import com.harrishjoshi.springaop.audit.trails.auditing.ApplicationAuditAware;
+import com.harrishjoshi.springaop.audit.trails.audit.ApplicationAuditAware;
 import com.harrishjoshi.springaop.audit.trails.user.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

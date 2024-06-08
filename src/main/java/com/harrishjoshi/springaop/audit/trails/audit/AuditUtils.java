@@ -1,18 +1,26 @@
-package com.harrishjoshi.springaop.audit.trails.auditing;
+package com.harrishjoshi.springaop.audit.trails.audit;
 
 import com.harrishjoshi.springaop.audit.trails.user.User;
-import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-public class ApplicationAuditAware implements AuditorAware<Integer> {
+public class AuditUtils {
 
-    @Override
-    public Optional<Integer> getCurrentAuditor() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    private AuditUtils() {
+    }
+
+    public static EventLogRequest getEventLogRequest() {
+        return EventLogRequest.builder()
+                .eventDate(LocalDateTime.now())
+                .userId(getLoggedInUserId().orElse(null))
+                .build();
+    }
+
+    public static Optional<Integer> getLoggedInUserId() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null ||
                 !authentication.isAuthenticated() ||
                 authentication instanceof AnonymousAuthenticationToken) {
