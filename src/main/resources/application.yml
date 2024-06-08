@@ -8,10 +8,18 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
     properties:
       hibernate:
     #        format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+application:
+  security:
+    jwt:
+      secret-key: 67566B59703373367639792F423F4528482B4D6251655468576D5A7134743777
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
