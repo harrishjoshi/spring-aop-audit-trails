@@ -5,28 +5,18 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.LocalDateTime;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public interface AuditEventLogResponse {
-    Integer getId();
-
-    String getEntityName();
-
-    String getFunctionCode();
-
-    String getActionCode();
-
-    String getField();
-
-    String getOldValue();
-
-    String getNewValue();
-
-    String getEventStatus();
-
-    String getErrorCode();
-
-    String getErrorDetails();
-
-    LocalDateTime getEventDate();
-
-    String getCreatedOrModifiedBy();
+public record AuditEventLogResponse(
+        Integer id,
+        String entityName,
+        String functionCode,
+        ActionCode actionCode,
+        String field,
+        String oldValue,
+        String newValue,
+        EventStatus eventStatus,
+        String errorCode,
+        String errorDetails,
+        LocalDateTime eventDate,
+        String createdOrModifiedBy
+) {
 }

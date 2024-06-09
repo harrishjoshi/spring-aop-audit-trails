@@ -2,6 +2,7 @@ package com.harrishjoshi.springaop.audit.trails;
 
 import com.harrishjoshi.springaop.audit.trails.auth.AuthenticationService;
 import com.harrishjoshi.springaop.audit.trails.auth.RegisterRequest;
+import com.harrishjoshi.springaop.audit.trails.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,26 +22,32 @@ public class SpringAopAuditTrailsApplication {
 
     @Bean
     public CommandLineRunner commandLineRunner(
-            AuthenticationService service
+            AuthenticationService service, UserRepository userRepository
     ) {
         return args -> {
-            var admin = RegisterRequest.builder()
-                    .firstName("Admin")
-                    .lastName("Admin")
-                    .email("admin@yopmail.com")
-                    .password("password")
-                    .role(ADMIN)
-                    .build();
-            System.out.println("Admin token: " + service.register(admin).accessToken());
+            var isAdminExists = userRepository.existsByEmail("admin@yopmail.com");
+            if (!isAdminExists) {
+                var admin = RegisterRequest.builder()
+                        .firstName("Admin")
+                        .lastName("Admin")
+                        .email("admin@yopmail.com")
+                        .password("password")
+                        .role(ADMIN)
+                        .build();
+                System.out.println("Admin token: " + service.register(admin).accessToken());
+            }
 
-            var manager = RegisterRequest.builder()
-                    .firstName("Manager")
-                    .lastName("Manager")
-                    .email("manager@yopmail.com")
-                    .password("password")
-                    .role(MANAGER)
-                    .build();
-            System.out.println("Manager token: " + service.register(manager).accessToken());
+            var isManagerExists = userRepository.existsByEmail("manager@yopmail.com");
+            if (!isManagerExists) {
+                var manager = RegisterRequest.builder()
+                        .firstName("Manager")
+                        .lastName("Manager")
+                        .email("manager@yopmail.com")
+                        .password("password")
+                        .role(MANAGER)
+                        .build();
+                System.out.println("Manager token: " + service.register(manager).accessToken());
+            }
         };
     }
 }
