@@ -28,13 +28,18 @@ public class BookService {
         var book = new Book();
         book.setTitle(bookRequest.title());
         book.setDescription(bookRequest.description());
-        bookRepository.save(book);
+
+        var savedBook = bookRepository.save(book);
+        AppContext.set(ContextKey.ENTITY_ID, savedBook.getId());
     }
 
     @EventLog(entityName = "Book", functionCode = "VIEW_BOOK")
     public BookResponse getBook(Integer id) {
-        return bookRepository.findBookById(id)
+        var bookResponse = bookRepository.findBookById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book with id: " + id + " not found."));
+
+        AppContext.set(ContextKey.ENTITY_ID, bookResponse.id());
+        return bookResponse;
     }
 
     @EventLog(entityName = "Book", functionCode = "UPDATE_BOOK", actionCode = ActionCode.UPDATE)
@@ -45,6 +50,8 @@ public class BookService {
 
         book.setTitle(bookRequest.title());
         book.setDescription(bookRequest.description());
+
+        AppContext.set(ContextKey.ENTITY_ID, book.getId());
         var updatedBook = bookRepository.save(book);
         AppContext.setDetails(ContextKey.POST, SerializationUtils.clone(updatedBook));
     }
@@ -53,8 +60,9 @@ public class BookService {
     public void deleteBook(Integer id) {
         var book = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book with id: " + id + " not found."));
-
         book.setDeleted(true);
+
+        AppContext.set(ContextKey.ENTITY_ID, book.getId());
         bookRepository.save(book);
     }
 }

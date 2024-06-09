@@ -14,6 +14,7 @@ public class EventLogRequest {
     private ActionCode actionCode;
     @Builder.Default
     private EventStatus eventStatus = EventStatus.SUCCESS;
+    private Integer entityId;
     private Object jsonDiff;
     private String field1;
     private String value1;

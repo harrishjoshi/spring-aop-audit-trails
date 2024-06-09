@@ -56,6 +56,11 @@ class EventLogAspect {
                 log.debug("Response: {}", result);
             }
 
+            var entityId = AppContext.getEntityId();
+            if (entityId != null) {
+                eventLogRequest.setEntityId(Integer.valueOf(entityId));
+            }
+
             if (ActionCode.UPDATE.equals(eventLog.actionCode())) {
                 var preData = AppContext.get(ContextKey.PRE);
                 var postData = AppContext.get(ContextKey.POST);

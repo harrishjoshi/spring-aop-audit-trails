@@ -36,4 +36,12 @@ public class AuditEventLogService {
     public List<AuditEventLogResponse> getAuditEventLog() {
         return auditEventLogRepository.findAllBy();
     }
+
+    public List<AuditEventLogResponse> getAuditEventLogByUserId(Integer userId) {
+        return auditEventLogRepository.getAuditEventLogByUserIdOrEntityId(userId);
+    }
+
+    public List<AuditEventLogResponse> getAuditEventLogByEntityId(Integer entityId) {
+        return auditEventLogRepository.getAuditEventLogByUserIdOrEntityId(entityId);
+    }
 }

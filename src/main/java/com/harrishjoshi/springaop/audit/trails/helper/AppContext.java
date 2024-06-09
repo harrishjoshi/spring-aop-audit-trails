@@ -42,12 +42,8 @@ public class AppContext {
         return contextMap.get();
     }
 
-    public static String getEmailId() {
-        return (String) get(ContextKey.EMAIL);
-    }
-
-    public static Integer getUserId() {
-        return (Integer) get(ContextKey.USER_ID);
+    public static String getEntityId() {
+        return (String) get(ContextKey.ENTITY_ID);
     }
 
     public static void setDetails(ContextKey key, Object object) {

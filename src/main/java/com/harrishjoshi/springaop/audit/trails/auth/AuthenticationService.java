@@ -35,6 +35,11 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
+        var isUserExists = repository.existsByEmail(request.getEmail());
+        if (isUserExists) {
+            throw new UsernameNotFoundException("User with email " + request.getEmail() + " already exists.");
+        }
+
         var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -69,9 +74,6 @@ public class AuthenticationService {
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
-
-        AppContext.set(ContextKey.USER_ID, user.getId());
-        AppContext.set(ContextKey.EMAIL, user.getEmail());
 
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
