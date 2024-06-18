@@ -23,6 +23,11 @@ logging:
       hibernate:
         stat: DEBUG
         sql: DEBUG
+    com:
+      harrishjoshi:
+        springaop:
+          audit:
+            trails: DEBUG
 
 application:
   security:
