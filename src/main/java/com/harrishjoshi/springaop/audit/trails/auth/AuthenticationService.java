@@ -1,8 +1,6 @@
 package com.harrishjoshi.springaop.audit.trails.auth;
 
 import com.harrishjoshi.springaop.audit.trails.config.JwtService;
-import com.harrishjoshi.springaop.audit.trails.helper.AppContext;
-import com.harrishjoshi.springaop.audit.trails.helper.ContextKey;
 import com.harrishjoshi.springaop.audit.trails.token.Token;
 import com.harrishjoshi.springaop.audit.trails.token.TokenRepository;
 import com.harrishjoshi.springaop.audit.trails.token.TokenType;
